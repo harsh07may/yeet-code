@@ -9,8 +9,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Yeetcode | Unserious code judge",
-  description: "Participate in contests and solve programming questions.",
-
+  description: "A playful coding platform for unserious programmers.",
 };
 
 export default function RootLayout({
@@ -20,11 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${inter.variable} antialiased`}
-      >
-        {children}
-      </body>
+      <body className={`${inter.variable} antialiased`}>{children}</body>
     </html>
   );
 }

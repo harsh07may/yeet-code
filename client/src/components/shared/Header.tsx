@@ -1,9 +1,14 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { SparklesIcon, UserIcon } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { SparklesIcon } from "lucide-react";
+
+/**
+ * Header component that displays the main navigation bar of the application.
+ * Contains the YeetCode logo, premium subscription button, and user avatar.
+ */
 function Header() {
   return (
     <header className="border-b">

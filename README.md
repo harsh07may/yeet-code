@@ -1,6 +1,11 @@
 # Yeetcode - A unserious code judge
+---
 
-There is a question bank that stores thousands of programming questions. For each question, users can write, compile and submit code against test cases and get results. User submitted code needs to be persisted.
+> [!DISCLAIMER]
+> Do not pollute this project with AI generated code for business logic.
+
+A playful coding platform for unserious programmers.
+A question bank with thousands of programming questions; users can write, compile and submit code against test cases and get results. User submitted code needs to be persisted.
 
 ### Core Requirements
 
@@ -39,3 +44,10 @@ On the other side of the Message Queue, we have multiple `Code Execution Workers
     ├── docker-compose.yml
     ├── .env
     └── README.md
+
+### Future Scope:
+
+- Weekly Contests
+- Realtime leaderboards
+- Discussions
+- Premium features: AI assissted feedback and more
