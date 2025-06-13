@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 export default function Home() {
@@ -6,7 +7,9 @@ export default function Home() {
       <div className="space-y-6">
         <h1 className="text-3xl font-bold">Home Page</h1>
         <section id="problems-table">
-          <Link href={"/problems"}>Discover Problems</Link>
+          <Button asChild>
+            <Link href={"/problems"}>Problems</Link>
+          </Button>
         </section>
       </div>
     </main>

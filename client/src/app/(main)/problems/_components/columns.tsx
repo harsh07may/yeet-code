@@ -9,7 +9,6 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDownIcon, Youtube } from "lucide-react";
 import Link from "next/link";
 
-//TODO: Move this entre section into the Badge component in the future.
 /**
  * Custom styles for difficulty badges.
  * @description Tailwind scans the entire component to create stylesheet to set styles dynamically.
@@ -21,6 +20,7 @@ const difficultyStyles = {
     "border-yellow-500 bg-yellow-500/10 text-yellow-700 dark:text-yellow-400",
   hard: "border-red-500 bg-red-500/10 text-red-700 dark:text-red-400",
 } as const;
+//TODO: Move this to Badge component in future.
 
 export const columns: ColumnDef<Problem>[] = [
   {
@@ -46,7 +46,7 @@ export const columns: ColumnDef<Problem>[] = [
       const id = row.original.id;
 
       return (
-        <Link href={`/problem/${id}`} className="underline">
+        <Link href={`/problems/${id}`} className="underline">
           {title}
         </Link>
       );
@@ -54,7 +54,6 @@ export const columns: ColumnDef<Problem>[] = [
   },
   {
     accessorKey: "difficulty",
-    //TODO: Add custom sorting on thsi col.
     header: ({ column }) => {
       return (
         <Button

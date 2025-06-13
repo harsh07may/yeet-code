@@ -1,12 +1,17 @@
 export type Difficulty = "easy" | "medium" | "hard";
+export type ProblemExample = {
+  input: string;
+  output: string;
+  explanation: string;
+};
 
-//* Use a Zod schema here if requried.
 export type Problem = {
   id: number;
   solved: boolean;
   title: string;
   difficulty: Difficulty;
-  description?: string;
+  description?: string; //TODO: Make this non-nullable
+  examples?: ProblemExample[]; //TODO: Make this non-nullable
 };
 
 /** Implement custom sorting for `tanstack/react-table`.
