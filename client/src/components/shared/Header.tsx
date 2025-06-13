@@ -4,6 +4,9 @@ import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { SparklesIcon } from "lucide-react";
+import { Badge } from "../ui/badge";
+
+// TODO: Add responsive mobile-nav
 
 /**
  * Header component that displays the main navigation bar of the application.
@@ -14,10 +17,13 @@ function Header() {
     <header className="border-b">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-2">
-          <span className="text-2xl font-bold tracking-tight">YeetCode</span>
-          <span className="rounded-md bg-yellow-300 px-1.5 py-0.5 text-xs font-medium text-yellow-900 dark:bg-yellow-600 dark:text-yellow-50">
-            BETA
-          </span>
+          <span className="text-2xl font-bold tracking-tight">Yeetcode</span>
+          <Badge
+            variant="outline"
+            className="bg-yellow-200 text-xs font-medium text-yellow-900 dark:bg-yellow-600 dark:text-yellow-50"
+          >
+            DEV
+          </Badge>
         </Link>
         <div className="hidden md:flex items-center gap-4">
           <Button
