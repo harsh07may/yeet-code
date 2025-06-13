@@ -10,8 +10,8 @@ export type Problem = {
   solved: boolean;
   title: string;
   difficulty: Difficulty;
-  description?: string; //TODO: Make this non-nullable
-  examples?: ProblemExample[]; //TODO: Make this non-nullable
+  description: string;
+  examples: ProblemExample[];
 };
 
 /** Implement custom sorting for `tanstack/react-table`.

@@ -5,6 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { SparklesIcon } from "lucide-react";
 import { Badge } from "../ui/badge";
+import { ModeToggle } from "./ModeToggle";
 
 // TODO: Add responsive mobile-nav
 
@@ -34,6 +35,7 @@ function Header() {
             <SparklesIcon className="h-4 w-4 group-hover " />
             <span>Get Plus</span>
           </Button>
+          <ModeToggle />
           <Avatar className="h-10 w-10 border hover:shadow cursor-pointer">
             <AvatarImage src="/placeholder-user.jpg" alt="User" />
             <AvatarFallback>YC</AvatarFallback>
