@@ -16,7 +16,7 @@ function Header() {
   return (
     <header className="border-b">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        <Link href="/" className="flex items-center gap-2">
+        <Link href="/" className="flex items-center gap-2 ">
           <span className="text-2xl font-bold tracking-tight">Yeetcode</span>
           <Badge
             variant="outline"
@@ -45,4 +45,3 @@ function Header() {
 }
 
 export default Header;
-5;
