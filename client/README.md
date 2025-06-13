@@ -24,5 +24,5 @@ pnpm dev
 - [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
 - [TailwindCSS](https://tailwindcss.com/) - A utility-first CSS framework with reusable classes.out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-Find out more: [Yeetcode | Eraser.io]([https://app.eraser.io/](https://app.eraser.io/workspace/PnG5Yluj9dpLTMZpRY2X)).
+Find out more: [Yeetcode | Eraser.io](https://app.eraser.io/](https://app.eraser.io/workspace/PnG5Yluj9dpLTMZpRY2X).
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
