@@ -1,8 +1,9 @@
-# Yeetcode - A unserious code judge
+# Yeetcode - An unserious code judge
+
 ---
 
-> [!DISCLAIMER]
-> Do not pollute this project with AI generated code for business logic.
+> [!IMPORTANT]
+> Open to contributions but please do not pollute business logic with AI generated code. :`)
 
 A playful coding platform for unserious programmers.
 A question bank with thousands of programming questions; users can write, compile and submit code against test cases and get results. User submitted code needs to be persisted.
@@ -18,6 +19,11 @@ A question bank with thousands of programming questions; users can write, compil
 When a `user` submits a `solution`, the `Code Evaluation Service` pushes a message containing the submission details (user ID, problem ID, and code) to the `Message Queue`. This decouples the submission process from the execution process, allowing us to handle traffic spikes more effectively.
 
 On the other side of the Message Queue, we have multiple `Code Execution Workers`. These workers continuously poll the queue for new submissions. When they receive a message, they fetch the necessary test cases from the `Problems database`, execute the code in a sandboxed environment, and record the results in the `Submissions database`.
+
+## Tech Stack
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [TailwindCSS](https://tailwindcss.com/) - A utility-first CSS framework with reusable classes.
 
 ### Folder Structure(hopefully)
 
@@ -51,3 +57,7 @@ On the other side of the Message Queue, we have multiple `Code Execution Workers
 - Realtime leaderboards
 - Discussions
 - Premium features: AI assissted feedback and more
+
+Find out more: [Yeetcode | Eraser.io](https://app.eraser.io/workspace/PnG5Yluj9dpLTMZpRY2X).
+
+Your feedback and contributions are welcome!
