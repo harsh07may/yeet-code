@@ -1,8 +1,8 @@
 # Yeetcode - A unserious code judge
 ---
 
-> [!DISCLAIMER]
-> Do not pollute this project with AI generated code for business logic.
+> [!IMPORTANT]
+> Open to contributions but please do not pollute this project with AI generated code for business logic. :`)
 
 A playful coding platform for unserious programmers.
 A question bank with thousands of programming questions; users can write, compile and submit code against test cases and get results. User submitted code needs to be persisted.
