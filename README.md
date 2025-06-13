@@ -1,5 +1,4 @@
 # Yeetcode - An unserious code judge
-
 ---
 
 > [!IMPORTANT]
