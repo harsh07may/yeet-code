@@ -1,0 +1,17 @@
+name: Lint Code
+
+on: [pull_request]
+jobs:
+  reviewdog:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: reviewdog/action-eslint@2fee6dd72a5419ff4113f694e2068d2a03bb35dd
+        with:
+          eslint_flags: client/src/ --ext .ts
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-review
