@@ -1,11 +1,11 @@
-import "express-async-errors";
-import express, { ErrorRequestHandler } from "express";
 import cors from "cors";
+import express, { ErrorRequestHandler } from "express";
+import "express-async-errors";
 import helmet from "helmet";
 import morgan from "morgan";
-import { routes } from "./routes";
-import { errorHandler } from "./middleware/errorHandler";
 import { config } from "./config";
+import { errorHandler } from "./middleware/errorHandler";
+import { routes } from "./routes";
 
 const app = express();
 
@@ -18,9 +18,12 @@ app.use(morgan("dev"));
 // Routes
 app.use("/api", routes);
 
-// Error handling
+//TODO: Fix types for Error handling
+//@ts-ignore
 app.use(errorHandler);
 
 app.listen(config.port, () => {
-  console.log(`Problem service running on port http://localhost:${config.port}`);
+  console.log(
+    `Problem service running on port http://localhost:${config.port}`
+  );
 });

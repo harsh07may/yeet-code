@@ -1,4 +1,5 @@
 # Yeetcode - An unserious code judge
+
 ---
 
 > [!IMPORTANT]
@@ -49,6 +50,18 @@ On the other side of the Message Queue, we have multiple `Code Execution Workers
     ├── docker-compose.yml
     ├── .env
     └── README.md
+
+### Docker-compose env
+
+```
+POSTGRES_USER = "postgres"
+POSTGRES_PASSWORD = "password"
+POSTGRES_DB = "yeetcode-db"
+
+REDIS_HOST = "redis"
+```
+
+- Run `docker-compose up -d`
 
 ### Future Scope:
 
