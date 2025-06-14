@@ -1,12 +1,5 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
-
 }
 
 datasource db {
@@ -14,12 +7,64 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Problem{
-  id Int @id @default(autoincrement())
-  title String
-  difficulty String
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+model Language {
+  id           Int                   @id @default(autoincrement())
+  name         String                 @unique
+  codeSnippets LanguageCodeSnippet[]
+}
+
+model Problem {
+  id                  Int                   @id @default(autoincrement())
+  title               String
+  difficulty          Difficulty
+  note                String
+  examples            Example[]
+  constraints         ProblemConstraint[]
+  codeSnippets        LanguageCodeSnippet[]
+  createdAt           DateTime              @default(now()) @map("created_at")
+  updatedAt           DateTime              @updatedAt      @map("updated_at")
 
   @@map("problem")
+  @@index([difficulty, id])
+}
+
+model ProblemConstraint {
+  id        Int     @id @default(autoincrement())
+  summary   String
+  problemId Int
+  problem   Problem @relation(fields: [problemId], references: [id], onDelete: Cascade)
+
+  @@index([problemId])
+  @@map("problem_constraint")
+}
+
+model Example {
+  id          Int     @id @default(autoincrement())
+  input       String
+  output      String
+  explanation String
+  problemId   Int
+  problem     Problem @relation(fields: [problemId], references: [id], onDelete: Cascade)
+
+  @@index([problemId])
+  @@map("example")
+}
+
+model LanguageCodeSnippet {
+  id         Int      @id @default(autoincrement())
+  code       String
+  languageId Int
+  problemId  Int
+  language   Language @relation(fields: [languageId], references: [id], onDelete: Cascade)
+  problem    Problem  @relation(fields: [problemId], references: [id], onDelete: Cascade)
+
+  @@index([languageId])
+  @@index([problemId])
+  @@map("language_code_snippet")
+}
+
+enum Difficulty {
+  easy
+  medium
+  hard
 }
