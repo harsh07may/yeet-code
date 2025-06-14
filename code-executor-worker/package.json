@@ -1,0 +1,25 @@
+{
+  "name": "code-executor-worker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "worker.js",
+  "scripts": {
+    "build": "tsc --build",
+    "start": "node dist/worker.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.11.0",
+  "devDependencies": {
+    "@types/node": "^24.0.1",
+    "@types/tmp": "^0.2.6",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "bullmq": "^5.53.3",
+    "ioredis": "^5.6.1",
+    "tmp": "^0.2.3"
+  }
+}
