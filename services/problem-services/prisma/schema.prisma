@@ -17,6 +17,8 @@ model Problem {
   id                  Int                   @id @default(autoincrement())
   title               String
   difficulty          Difficulty
+  solved              Boolean               @default(false)
+  description         String
   note                String
   examples            Example[]
   constraints         ProblemConstraint[]

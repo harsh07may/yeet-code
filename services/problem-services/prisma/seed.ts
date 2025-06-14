@@ -1,3 +1,4 @@
+import { Problem } from "@prisma/client";
 import { prisma } from "../src/lib/prisma";
 
 const languages = [
@@ -10,7 +11,9 @@ const problems = [
   {
     title: "Two Sum",
     difficulty: "easy",
+    solved: false,
     note: "Use a hash map for optimal solution.",
+    description: "Find two numbers in an array that add up to a specific target.",
     examples: [
       {
         input: "nums = [2,7,11,15], target = 9",
@@ -36,6 +39,7 @@ const problems = [
     title: "Add Two Numbers",
     difficulty: "medium",
     note: "Linked list manipulation question.",
+    description: "Add two numbers represented by linked lists.",
     examples: [
       {
         input: "l1 = [2,4,3], l2 = [5,6,4]",
@@ -49,11 +53,13 @@ const problems = [
     codeSnippets: [
       { language: "JavaScript", code: `function addTwoNumbers(l1, l2) {}` },
     ],
+    solved: false,
   },
   {
     title: "Longest Substring Without Repeating Characters",
     difficulty: "medium",
     note: "Use sliding window to maintain current substring.",
+    description: "Find the length of the longest substring without repeating characters.",
     examples: [
       {
         input: 's = "abcabcbb"',
@@ -79,11 +85,13 @@ const problems = [
       },
       { language: "Python", code: `def lengthOfLongestSubstring(s):` },
     ],
+    solved: false,
   },
   {
     title: "Valid Parentheses",
     difficulty: "easy",
     note: "Use a stack to ensure valid nesting.",
+    description: "Check if a string of parentheses is valid and balanced.",
     examples: [
       {
         input: 's = "()"',
@@ -104,11 +112,13 @@ const problems = [
       { language: "JavaScript", code: `function isValid(s) {}` },
       { language: "Python", code: `def isValid(s):` },
     ],
+    solved: false,
   },
   {
     title: "Merge Two Sorted Lists",
     difficulty: "easy",
     note: "Use two pointers to merge iteratively or recursively.",
+    description: "Merge two sorted linked lists into one sorted list.",
     examples: [
       {
         input: "l1 = [1,2,4], l2 = [1,3,4]",
@@ -124,11 +134,13 @@ const problems = [
       { language: "JavaScript", code: `function mergeTwoLists(l1, l2) {}` },
       { language: "Python", code: `def mergeTwoLists(l1, l2):` },
     ],
+    solved: false,
   },
   {
     title: "Maximum Subarray",
     difficulty: "medium",
     note: "Use Kadane's Algorithm for a linear time solution.",
+    description: "Find the contiguous subarray with the largest sum.",
     examples: [
       {
         input: "nums = [-2,1,-3,4,-1,2,1,-5,4]",
@@ -144,11 +156,13 @@ const problems = [
       { language: "JavaScript", code: `function maxSubArray(nums) {}` },
       { language: "Python", code: `def maxSubArray(nums):` },
     ],
+    solved: false,
   },
   {
     title: "Climbing Stairs",
     difficulty: "easy",
     note: "Classic dynamic programming problem.",
+    description: "Calculate the number of ways to climb a staircase with n steps.",
     examples: [
       {
         input: "n = 2",
@@ -166,6 +180,7 @@ const problems = [
       { language: "JavaScript", code: `function climbStairs(n) {}` },
       { language: "Python", code: `def climbStairs(n):` },
     ],
+    solved: false,
   },
 ];
 
@@ -187,6 +202,8 @@ async function main() {
       data: {
         title: problem.title,
         difficulty: problem.difficulty as "easy" | "medium" | "hard",
+        solved:problem.solved,
+        description:problem.description,
         note: problem.note,
         examples: {
           create: problem.examples.map((ex) => ({

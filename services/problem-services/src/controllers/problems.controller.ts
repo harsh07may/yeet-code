@@ -11,6 +11,8 @@ export class ProblemsController {
         title: true,
         difficulty: true,
         note: true,
+        description: true,
+        solved: true,
         examples: {
           select: {
             id: true,
@@ -35,9 +37,7 @@ export class ProblemsController {
     if (isNaN(problemId)) {
       return res
         .status(400)
-        .json(
-          formResponse(httpStatusCodes[400].code, "Invalid problem ID", )
-        );
+        .json(formResponse(httpStatusCodes[400].code, "Invalid problem ID"));
     }
 
     const problem = await prisma.problem.findUnique({
@@ -46,6 +46,8 @@ export class ProblemsController {
         id: true,
         title: true,
         difficulty: true,
+        description: true,
+        solved: true,
         note: true,
         examples: {
           select: {

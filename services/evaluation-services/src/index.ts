@@ -3,11 +3,45 @@ import express, { ErrorRequestHandler } from "express";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
+import http from "http";
 import { routes } from "./routes";
 import { errorHandler } from "./middleware/errorHandler";
 import { config } from "./config";
+import { Server } from "socket.io";
 
 const app = express();
+
+const client = new Map();
+
+// Create Http server
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: "*", // adjust for production
+    methods: ["GET", "POST"],
+  },
+});
+
+//websocket connection
+io.on("connection", (socket) => {
+  console.log(`Client connected`, socket.id);
+
+  socket.on("register", (jobId: string) => {
+    client.set(jobId, socket);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("🔴 Client disconnected:", socket.id);
+    
+    for (let [key, value] of client) {
+      if (value == socket) {
+        client.delete(key);
+      }
+    }
+  });
+
+  socket;
+});
 
 app.use(express.json());
 app.use(cors());
@@ -22,6 +56,8 @@ app.use("/api", routes);
 //@ts-ignore
 app.use(errorHandler);
 
-app.listen(config.port, () => {
-  console.log(`Evaluation service running on port http://localhost:${config.port}`);
+server.listen(config.port, () => {
+  console.log(
+    `Evaluation service running on port http://localhost:${config.port}`
+  );
 });
