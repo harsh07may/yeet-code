@@ -19,7 +19,7 @@ app.use(morgan("dev"));
 app.use("/api", routes);
 
 // Error handling
-// app.use(errorHandler);
+app.use(errorHandler);
 
 app.listen(config.port, () => {
   console.log(`Problem service running on port http://localhost:${config.port}`);
