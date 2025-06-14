@@ -1,28 +1,17 @@
 name: Yeetcode
 
 services:
-
-  # Nginix Reverse Proxy
-  nginx:
-    image: nginx:alpine
-    volumes:
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-    ports:
-      - "80:80" # Exposing NGINX service on port 80
-    # networks:
-    #   - app-network
-
-
-  # Postgres or whatever 
   db:
     container_name: yeetcode-db
     image: postgres
     ports:
       - "5432:5432"
+    env_file:
+      - .env
     environment:
-      POSTGRES_USER:
-      POSTGRES_PASSWORD:
-      POSTGRES_DB:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - postgres_data:/data
 
@@ -35,19 +24,15 @@ services:
     volumes:
       - redis-data:/data
 
-  # Nextjs
-  client:
-
-  # Microservice 1
-  problem-service:
-
-  # Microservice 2
-  evaluation-service:
-
-  # Bullmq worker
   worker:
-
-
+    build:
+      context: ./code-executor-worker
+      dockerfile: Dockerfile
+    environment:
+      REDIS_HOST: ${REDIS_HOST}
+    depends_on:
+      - db
+      - redis
 volumes:
   redis-data:
   postgres_data:
