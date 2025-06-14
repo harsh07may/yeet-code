@@ -7,11 +7,15 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
+    defaults:
+      run:
+        working-directory: ./client
     steps:
       - uses: actions/checkout@v4
 
       - uses: reviewdog/action-eslint@2fee6dd72a5419ff4113f694e2068d2a03bb35dd
         with:
-          eslint_flags: client/src/ --ext .ts
+          workdir: client
+          eslint_flags: src/ --ext .ts
           github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: github-pr-review
