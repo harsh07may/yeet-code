@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -9,9 +8,59 @@ datasource db {
 }
 
 model problem {
+  id                    Int                     @id @default(autoincrement())
+  title                 String
+  difficulty            Difficulty
+  note                  String
+  created_at            DateTime                @default(now())
+  updated_at            DateTime
+  example               example[]
+  language_code_snippet language_code_snippet[]
+  problem_constraint    problem_constraint[]
+
+  @@index([difficulty, id])
+}
+
+model Language {
+  id                    Int                     @id @default(autoincrement())
+  name                  String                  @unique
+  language_code_snippet language_code_snippet[]
+}
+
+model example {
+  id          Int     @id @default(autoincrement())
+  input       String
+  output      String
+  explanation String
+  problemId   Int
+  problem     problem @relation(fields: [problemId], references: [id], onDelete: Cascade)
+
+  @@index([problemId])
+}
+
+model language_code_snippet {
   id         Int      @id @default(autoincrement())
-  title      String
-  difficulty String
-  created_at DateTime @default(now())
-  updated_at DateTime
+  code       String
+  languageId Int
+  problemId  Int
+  Language   Language @relation(fields: [languageId], references: [id], onDelete: Cascade)
+  problem    problem  @relation(fields: [problemId], references: [id], onDelete: Cascade)
+
+  @@index([languageId])
+  @@index([problemId])
+}
+
+model problem_constraint {
+  id        Int     @id @default(autoincrement())
+  summary   String
+  problemId Int
+  problem   problem @relation(fields: [problemId], references: [id], onDelete: Cascade)
+
+  @@index([problemId])
+}
+
+enum Difficulty {
+  easy
+  medium
+  hard
 }

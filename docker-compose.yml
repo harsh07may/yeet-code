@@ -17,12 +17,12 @@ services:
 
   # Redis
   redis:
-    image: redis
+    image: redis/redis-stack:latest
     ports:
-      - "6379:6379"
-    command: redis-server --save 20 1 --loglevel warning
+      - "6379:6379" # Redis server port
+      - "8001:8001" # RedisInsight UI port
     volumes:
-      - redis-data:/data
+      - redis_data:/data # Persist data
 
   worker:
     build:

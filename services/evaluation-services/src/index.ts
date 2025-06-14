@@ -18,8 +18,9 @@ app.use(morgan("dev"));
 // Routes
 app.use("/api", routes);
 
-// Error handling
-// app.use(errorHandler);
+//TODO: Fix types for Error handling
+//@ts-ignore
+app.use(errorHandler);
 
 app.listen(config.port, () => {
   console.log(`Evaluation service running on port http://localhost:${config.port}`);
