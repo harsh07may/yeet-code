@@ -35,8 +35,8 @@ On the other side of the Message Queue, we have multiple `Code Execution Workers
     │       └── lib/
     ├── services/
     │   ├── problem-service/       # Express app for problem CRUD
-    │   └── evaluation-service/    # Submissions, queue integration
-    │
+    │   ├── evaluation-service/    # Submissions, queue integration
+    │   └── docker-compose.yml
     ├── workers/
     │   └── code-executor/         # Polls queue, runs submissions
     │       ├── docker/

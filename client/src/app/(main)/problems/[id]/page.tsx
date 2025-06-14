@@ -4,7 +4,9 @@ import { cn } from "@/lib/utils";
 import { notFound } from "next/navigation";
 import React from "react";
 
-import { Button } from "@/components/ui/button";
+import CodeEditor from "@/components/editor/CodeEditor";
+
+import { Heading1, Heading3, Paragraph } from "@/components/typography";
 import {
   ResizableHandle,
   ResizablePanel,
@@ -39,7 +41,7 @@ async function ProblemPage({ params }: Props) {
         <ResizablePanel defaultSize={30}>
           <section className="p-4 space-y-4">
             <div className="flex items-center justify-between">
-              <h1 className="text-2xl font-bold">{problem.title}</h1>
+              <Heading1>{problem.title}</Heading1>
               <Badge
                 variant="outline"
                 className={cn("w-20", difficultyStyles[problem.difficulty])}
@@ -47,8 +49,8 @@ async function ProblemPage({ params }: Props) {
                 {problem.difficulty}
               </Badge>
             </div>
-            <p>{problem.description}</p>
-            <h3 className="font-bold">Examples:</h3>
+            <Paragraph>{problem.description}</Paragraph>
+            <Heading3>Examples:</Heading3>
             {problem.examples &&
               problem.examples.map((example, index) => (
                 <Examples key={index} {...example} />
@@ -60,20 +62,10 @@ async function ProblemPage({ params }: Props) {
         {/* RIGHT SECTION: CODE EDITOR */}
         <ResizablePanel defaultSize={70}>
           <section className="p-4 space-y-4">
-            <h1 className="text-2xl font-bold">Code Editor</h1>
-            <div className="relative flex justify-center items-center border rounded-2xl h-[600]">
-              <p>MONACO CODE EDITOR</p>
-              <div className="flex gap-2 absolute bottom-5 right-5">
-                <Button variant="outline" className="cursor-pointer">
-                  Run
-                </Button>
-                <Button variant="default" className="cursor-pointer">
-                  Submit
-                </Button>
-              </div>
-            </div>
-            <div className="flex justify-center items-center border rounded-2xl h-[100]">
-              <p>OUTPUT TERMINAL</p>
+            <Heading1>Code Editor</Heading1>
+            <CodeEditor langauge="javascript" defaultValue="//some comment" />
+            <div className="flex justify-center items-center border rounded-2xl bg-accent">
+              <Paragraph>OUTPUT TERMINAL</Paragraph>
             </div>
           </section>
         </ResizablePanel>
