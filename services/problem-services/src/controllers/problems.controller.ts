@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { httpStatusCodes } from "../utils/httpStatusCodes";
-import { formResponse } from "../utils/formResponse";
 import { prisma } from "../lib/prisma";
+import { formResponse } from "../utils/formResponse";
+import { httpStatusCodes } from "../utils/httpStatusCodes";
 
 export class ProblemsController {
   async getAllProblems(req: Request, res: Response) {
@@ -15,19 +15,47 @@ export class ProblemsController {
         solved: true,
         examples: {
           select: {
-            id: true,
             explanation: true,
             input: true,
             output: true,
           },
         },
-        codeSnippets: true,
-        constraints: true,
+        codeSnippets: {
+          select: {
+            code: true,
+            language: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
+        constraints: {
+          select: {
+            summary: true,
+          },
+        },
       },
     });
+
+    // Transform result to match client-side type
+    const formattedProblems = allProblems.map((problem) => ({
+      id: problem.id,
+      title: problem.title,
+      difficulty: problem.difficulty,
+      description: problem.description,
+      solved: problem.solved,
+      examples: problem.examples,
+      codeSnippets: problem.codeSnippets.map((snippet) => ({
+        code: snippet.code,
+        language: snippet.language.name,
+      })),
+      constraints: problem.constraints.map((c) => c.summary),
+    }));
+
     return res
       .status(httpStatusCodes[200].code)
-      .json(formResponse(httpStatusCodes[200].code, allProblems));
+      .json(formResponse(httpStatusCodes[200].code, formattedProblems));
   }
   async getProblemById(req: Request, res: Response) {
     const { id } = req.params;

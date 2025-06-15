@@ -34,5 +34,5 @@ services:
       - db
       - redis
 volumes:
-  redis-data:
+  redis_data:
   postgres_data:
