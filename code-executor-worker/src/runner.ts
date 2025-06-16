@@ -22,7 +22,7 @@ export async function runIsolatedCode(
   fs.writeFileSync(tmpFile.name, code);
 
   const output = execSync(
-    `docker run --rm -v ${tmpFile.name}:/code.py python:3.10 python /code.py`,
+    `docker run --rm --cpus="0.5" --memory="512M" --cap-drop="ALL" --security-opt="seccomp=unconfined" --network="none" --read-only -v ${tmpFile.name}:/code.py python:3.10 python /code.py`,
     { timeout: 5000 }
   ).toString();
 

@@ -24,15 +24,6 @@ services:
     volumes:
       - redis_data:/data # Persist data
 
-  worker:
-    build:
-      context: ./code-executor-worker
-      dockerfile: Dockerfile
-    environment:
-      REDIS_HOST: ${REDIS_HOST}
-    depends_on:
-      - db
-      - redis
 volumes:
   redis_data:
   postgres_data:
