@@ -74,27 +74,29 @@ export class ProblemsController {
         id: true,
         title: true,
         difficulty: true,
+        note: true,
         description: true,
         solved: true,
-        note: true,
         examples: {
           select: {
-            id: true,
+            explanation: true,
             input: true,
             output: true,
-            explanation: true,
           },
         },
-        constraints: true,
         codeSnippets: {
           select: {
-            id: true,
             code: true,
             language: {
               select: {
                 name: true,
               },
             },
+          },
+        },
+        constraints: {
+          select: {
+            summary: true,
           },
         },
       },
@@ -106,8 +108,23 @@ export class ProblemsController {
         .json(formResponse(httpStatusCodes[404].code, "Problem not found"));
     }
 
+    // Transform result to match client-side type
+    const formattedProblem = {
+      id: problem.id,
+      title: problem.title,
+      difficulty: problem.difficulty,
+      description: problem.description,
+      solved: problem.solved,
+      examples: problem.examples,
+      codeSnippets: problem.codeSnippets.map((snippet) => ({
+        code: snippet.code,
+        language: snippet.language.name,
+      })),
+      constraints: problem.constraints.map((c) => c.summary),
+    };
+
     return res
       .status(httpStatusCodes[200].code)
-      .json(formResponse(httpStatusCodes[200].code, problem));
+      .json(formResponse(httpStatusCodes[200].code, formattedProblem));
   }
 }
