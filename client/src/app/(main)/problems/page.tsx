@@ -1,22 +1,6 @@
-import { BASE_URL } from "@/constants";
-import { Problem } from "@/types";
 import { columns } from "./_components/columns";
 import { DataTable } from "./_components/data-table";
-
-async function getProblems(): Promise<Problem[]> {
-  try {
-    const response = await fetch(`${BASE_URL}/problems`);
-    if (!response.ok) {
-      throw new Error("Failed to fetch!");
-    }
-
-    const { data } = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error fetching problems:", error);
-    return [];
-  }
-}
+import { getProblems } from "@/app/server/queries";
 
 export default async function ProblemsPage() {
   const data = await getProblems();
