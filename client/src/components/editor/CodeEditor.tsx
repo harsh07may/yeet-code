@@ -1,15 +1,22 @@
 "use client";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import Editor from "@monaco-editor/react";
 import { editor } from "monaco-editor";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Button } from "../ui/button";
-type Props = {
-  langauge: "python" | "javascript";
-  defaultValue?: string;
-};
 
-function CodeEditor({ langauge = "javascript", defaultValue }: Props) {
+const availableLanguages = ["python", "javascript"];
+
+function CodeEditor() {
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
+  const [selectedLanguage, setSelectedLanguage] = useState(
+    availableLanguages[0]
+  );
 
   function handleEditorDidMount(editor: editor.IStandaloneCodeEditor) {
     editorRef.current = editor;
@@ -21,11 +28,31 @@ function CodeEditor({ langauge = "javascript", defaultValue }: Props) {
   return (
     <>
       <div className="relative p-2">
+        <div className="flex gap-2 absolute top-5 right-10 z-10">
+          <DropdownMenu>
+            <DropdownMenuTrigger className="capitalize">
+              <Button variant="outline" className="cursor-pointer">
+                {selectedLanguage}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              {availableLanguages.map((lang) => (
+                <DropdownMenuItem
+                  key={lang}
+                  onClick={() => setSelectedLanguage(lang)}
+                  className="capitalize"
+                >
+                  {lang}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
         <Editor
           height="600px"
           theme="dark"
-          defaultLanguage={langauge}
-          defaultValue={defaultValue}
+          defaultLanguage={selectedLanguage}
+          defaultValue={""}
           onMount={handleEditorDidMount}
           options={{
             minimap: {
