@@ -1,15 +1,26 @@
 "use client";
 import Editor from "@monaco-editor/react";
 import { editor } from "monaco-editor";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Button } from "../ui/button";
-type Props = {
-  langauge: "python" | "javascript";
-  defaultValue?: string;
-};
+import { useTheme } from "next-themes";
+import { Skeleton } from "../ui/skeleton";
 
-function CodeEditor({ langauge = "javascript", defaultValue }: Props) {
+type Props = { codeSnippets: { code: string; language: string }[] };
+
+/**
+ * `CodeEditor` is a React component that renders a Monaco code editor instance
+ * with Python as the default language.`
+ */
+function CodeEditor({ codeSnippets }: Props) {
+  const { theme } = useTheme();
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
+
+  const [selectedLanguage, setSelectedLanguage] = useState("python");
+  const snippet = codeSnippets.find(
+    (s) => s.language.toLowerCase() === selectedLanguage.toLowerCase()
+  );
+  // TODO: Add a combobox that changes the selectedLanguage
 
   function handleEditorDidMount(editor: editor.IStandaloneCodeEditor) {
     editorRef.current = editor;
@@ -23,9 +34,10 @@ function CodeEditor({ langauge = "javascript", defaultValue }: Props) {
       <div className="relative p-2">
         <Editor
           height="600px"
-          theme="dark"
-          defaultLanguage={langauge}
-          defaultValue={defaultValue}
+          loading={<Skeleton className="w-full h-full" />}
+          theme={theme == "light" ? "light" : "vs-dark"}
+          defaultLanguage={selectedLanguage}
+          defaultValue={snippet?.code ?? "//some comment"}
           onMount={handleEditorDidMount}
           options={{
             minimap: {

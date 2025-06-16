@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import { PROBLEMS } from "@/constants";
+import { BASE_URL } from "@/constants";
 import { cn } from "@/lib/utils";
 import { notFound } from "next/navigation";
 import React from "react";
@@ -12,6 +12,7 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
+import { Problem } from "@/types";
 import Examples from "../_components/examples";
 
 type Props = {
@@ -25,10 +26,24 @@ const difficultyStyles = {
   hard: "border-red-500 bg-red-500/10 text-red-700 dark:text-red-400",
 } as const;
 
+async function getProblemById(id: number): Promise<Problem | null> {
+  try {
+    const response = await fetch(`${BASE_URL}/problems/${id}`);
+    if (!response.ok) {
+      throw new Error("Failed to fetch!");
+    }
+
+    const { data } = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching problems:", error);
+    return null;
+  }
+}
 async function ProblemPage({ params }: Props) {
   const id = parseInt((await params).id);
-  const problem = PROBLEMS.find((p) => p.id === id);
-
+  const problem = await getProblemById(id);
+  console.log(problem);
   if (!problem) return notFound();
 
   return (
@@ -55,6 +70,12 @@ async function ProblemPage({ params }: Props) {
               problem.examples.map((example, index) => (
                 <Examples key={index} {...example} />
               ))}
+            <Heading3>Constrainsts:</Heading3>
+            {problem.constraints.map((constraint, index) => (
+              <Paragraph className="rounded-md bg-accent p-2" key={index}>
+                {constraint}
+              </Paragraph>
+            ))}
           </section>
         </ResizablePanel>
         <ResizableHandle withHandle />
@@ -63,7 +84,8 @@ async function ProblemPage({ params }: Props) {
         <ResizablePanel defaultSize={70}>
           <section className="p-4 space-y-4">
             <Heading1>Code Editor</Heading1>
-            <CodeEditor langauge="javascript" defaultValue="//some comment" />
+            {/* TODO: Pass down problem.codeSnippets, based on selectedLanguage find the codeSnippet.code */}
+            <CodeEditor codeSnippets={problem.codeSnippets} />
             <div className="flex justify-center items-center border rounded-2xl bg-accent">
               <Paragraph>OUTPUT TERMINAL</Paragraph>
             </div>

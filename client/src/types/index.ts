@@ -7,11 +7,16 @@ export type ProblemExample = {
 
 export type Problem = {
   id: number;
-  solved: boolean;
   title: string;
   difficulty: Difficulty;
   description: string;
+  solved: boolean;
   examples: ProblemExample[];
+  codeSnippets: {
+    code: string;
+    language: string;
+  }[];
+  constraints: string[];
 };
 
 /** Implement custom sorting for `tanstack/react-table`.
