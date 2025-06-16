@@ -1,4 +1,4 @@
-import { QueueEvents, Worker, Job } from "bullmq";
+import { Job, QueueEvents, Worker } from "bullmq";
 import Redis from "ioredis";
 import { runIsolatedCode } from "./runner";
 
@@ -6,6 +6,16 @@ const redis = new Redis({
   host: "localhost",
   port: 6379,
   maxRetriesPerRequest: null,
+});
+
+// ✅ Log successful connection
+redis.on("connect", () => {
+  console.log("✅ Redis connected successfully");
+});
+
+// ❌ Log connection error
+redis.on("error", (err) => {
+  console.error("❌ Redis connection error:", err);
 });
 
 const worker = new Worker("submissions", handleJob, { connection: redis })

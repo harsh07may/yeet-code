@@ -7,7 +7,7 @@ export class EvaluateController {
         programId,
         language,
         code,
-      }: { programId: string; language: string; code: string } = req.body;
+      }: { programId: string; language: string; code: string } = req.body.data;
 
       const jobId = await addJob({
         programId,
