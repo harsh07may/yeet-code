@@ -32,15 +32,12 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     console.log("🔴 Client disconnected:", socket.id);
-    
     for (let [key, value] of client) {
       if (value == socket) {
         client.delete(key);
       }
     }
   });
-
-  socket;
 });
 
 app.use(express.json());
@@ -51,6 +48,16 @@ app.use(morgan("dev"));
 
 // Routes
 app.use("/api", routes);
+
+app.post("code-result", (req, res) => {
+  const { jobId, output } = req.body;
+  const socket = client.get(jobId);
+
+  if (socket) {
+    socket.emit("code-result", { jobId, output });
+  }
+  res.send(200)
+});
 
 //TODO: Fix types for Error handling
 //@ts-ignore

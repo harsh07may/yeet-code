@@ -1,5 +1,7 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { io } from "socket.io-client";
+import TestComponent from "./problems/_testComponents/TestComponent";
 
 export default function Home() {
   return (
@@ -10,6 +12,7 @@ export default function Home() {
           <Button asChild>
             <Link href={"/problems"}>Problems</Link>
           </Button>
+          <TestComponent />
         </section>
       </div>
     </main>

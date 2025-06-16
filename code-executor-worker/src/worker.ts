@@ -1,11 +1,21 @@
-import { QueueEvents, Worker } from "bullmq";
+import { Job, QueueEvents, Worker } from "bullmq";
 import Redis from "ioredis";
 import { runIsolatedCode } from "./runner";
 
 const redis = new Redis({
-  host: process.env.REDIS_HOST || "redis",
+  host: process.env.REDIS_HOST || "localhost",
   port: 6379,
   maxRetriesPerRequest: null,
+});
+
+// ✅ Log successful connection
+redis.on("connect", () => {
+  console.log("✅ Redis connected successfully");
+});
+
+// ❌ Log connection error
+redis.on("error", (err) => {
+  console.error("❌ Redis connection error:", err);
 });
 
 const worker = new Worker("submissions", handleJob, { connection: redis })
@@ -25,9 +35,12 @@ const worker = new Worker("submissions", handleJob, { connection: redis })
  *
  * @returns Promise that resolves when the job processing is complete
  */
-async function handleJob(job: { data: SubmissionJob }): Promise<void> {
-  const { problemId, language, code } = job.data;
-  const result = await runIsolatedCode(code, language);
-  // saveResult( problemId, language, code, result)
-  console.log(`processing completed:${result}`);
+async function handleJob(job: any) {
+  console.log(job);
+  // console.log(job);
+  // const { problemId, language, code } = job.data;
+  // console.log("Job received:", job.id, problemId, language, code);
+
+  // const result = await runIsolatedCode(code, language);
+  // console.log(`processing completed: ${result}`);
 }

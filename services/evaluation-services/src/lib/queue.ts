@@ -14,6 +14,6 @@ export async function addJob(data: {
   language: string;
   code: string;
 }) {
-  const job = await submissionQueue.add("process", data);
+  const job = await submissionQueue.add("process", { ...data, attempts: 3 });
   return job.id;
 }

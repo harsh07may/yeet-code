@@ -3,4 +3,3 @@ type SubmissionJob = {
   language: string;
   code: string;
 };
-
