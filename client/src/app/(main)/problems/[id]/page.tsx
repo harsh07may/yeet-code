@@ -43,6 +43,7 @@ async function getProblemById(id: number): Promise<Problem | null> {
 async function ProblemPage({ params }: Props) {
   const id = parseInt((await params).id);
   const problem = await getProblemById(id);
+  console.log(problem);
   if (!problem) return notFound();
 
   return (
@@ -69,6 +70,12 @@ async function ProblemPage({ params }: Props) {
               problem.examples.map((example, index) => (
                 <Examples key={index} {...example} />
               ))}
+            <Heading3>Constrainsts:</Heading3>
+            {problem.constraints.map((constraint, index) => (
+              <Paragraph className="rounded-md bg-accent p-2" key={index}>
+                {constraint}
+              </Paragraph>
+            ))}
           </section>
         </ResizablePanel>
         <ResizableHandle withHandle />
@@ -78,7 +85,7 @@ async function ProblemPage({ params }: Props) {
           <section className="p-4 space-y-4">
             <Heading1>Code Editor</Heading1>
             {/* TODO: Pass down problem.codeSnippets, based on selectedLanguage find the codeSnippet.code */}
-            <CodeEditor /> 
+            <CodeEditor codeSnippets={problem.codeSnippets} />
             <div className="flex justify-center items-center border rounded-2xl bg-accent">
               <Paragraph>OUTPUT TERMINAL</Paragraph>
             </div>

@@ -1,22 +1,26 @@
 "use client";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import Editor from "@monaco-editor/react";
 import { editor } from "monaco-editor";
 import React, { useRef, useState } from "react";
 import { Button } from "../ui/button";
+import { useTheme } from "next-themes";
+import { Skeleton } from "../ui/skeleton";
 
-const availableLanguages = ["python", "javascript"];
+type Props = { codeSnippets: { code: string; language: string }[] };
 
-function CodeEditor() {
+/**
+ * `CodeEditor` is a React component that renders a Monaco code editor instance
+ * with Python as the default language.`
+ */
+function CodeEditor({ codeSnippets }: Props) {
+  const { theme } = useTheme();
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
-  const [selectedLanguage, setSelectedLanguage] = useState(
-    availableLanguages[0]
+
+  const [selectedLanguage, setSelectedLanguage] = useState("python");
+  const snippet = codeSnippets.find(
+    (s) => s.language.toLowerCase() === selectedLanguage.toLowerCase()
   );
+  // TODO: Add a combobox that changes the selectedLanguage
 
   function handleEditorDidMount(editor: editor.IStandaloneCodeEditor) {
     editorRef.current = editor;
@@ -28,31 +32,12 @@ function CodeEditor() {
   return (
     <>
       <div className="relative p-2">
-        <div className="flex gap-2 absolute top-5 right-10 z-10">
-          <DropdownMenu>
-            <DropdownMenuTrigger className="capitalize">
-              <Button variant="outline" className="cursor-pointer">
-                {selectedLanguage}
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              {availableLanguages.map((lang) => (
-                <DropdownMenuItem
-                  key={lang}
-                  onClick={() => setSelectedLanguage(lang)}
-                  className="capitalize"
-                >
-                  {lang}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
         <Editor
           height="600px"
-          theme="dark"
+          loading={<Skeleton className="w-full h-full" />}
+          theme={theme == "light" ? "light" : "vs-dark"}
           defaultLanguage={selectedLanguage}
-          defaultValue={""}
+          defaultValue={snippet?.code ?? "//some comment"}
           onMount={handleEditorDidMount}
           options={{
             minimap: {

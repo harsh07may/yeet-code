@@ -4,7 +4,7 @@ import React from "react";
 function Examples({ input, output, explanation }: ProblemExample) {
   return (
     <>
-      <div className="rounded-md border p-4">
+      <div className="rounded-md bg-accent border p-4">
         <div>
           <strong>Input:</strong> {input}
         </div>
