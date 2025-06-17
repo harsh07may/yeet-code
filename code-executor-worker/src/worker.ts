@@ -2,6 +2,8 @@ import { Job, QueueEvents, Worker } from "bullmq";
 import Redis from "ioredis";
 import { runIsolatedCode } from "./runner";
 
+import { runIsolateCodeV2 } from "./runner";
+
 const redis = new Redis({
   host: "localhost",
   port: 6379,
@@ -34,6 +36,6 @@ const worker = new Worker("submissions", handleJob, { connection: redis })
  */
 async function handleJob(job: Job<SubmissionJob>): Promise<void> {
   const { problemId, language, code } = job.data;
-  const result = await runIsolatedCode(code, language);
+  const result = await runIsolateCodeV2(code, language);
   console.log(`processing completed for job ${job.id}`);
 }
