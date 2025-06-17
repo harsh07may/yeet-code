@@ -1,6 +1,7 @@
 import { Job, QueueEvents, Worker } from "bullmq";
 import Redis from "ioredis";
-import { runIsolatedCode } from "./runner";
+import axios from "axios"; // or use fetch if you prefer
+
 
 import { runIsolateCodeV2 } from "./runner";
 
@@ -36,6 +37,13 @@ const worker = new Worker("submissions", handleJob, { connection: redis })
  */
 async function handleJob(job: Job<SubmissionJob>): Promise<void> {
   const { problemId, language, code } = job.data;
+  console.log(code, job.id);
+
   const result = await runIsolateCodeV2(code, language);
-  console.log(`processing completed for job ${job.id}`);
+  console.log(`✅ Job ${job.id} result:`, result);
+
+  await axios.post("http://localhost:3002/code-result", {
+    jobId: job.id,
+    output: result,
+  });
 }

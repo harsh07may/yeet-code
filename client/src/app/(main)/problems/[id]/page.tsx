@@ -27,54 +27,77 @@ const difficultyStyles = {
 
 async function ProblemPage({ params }: Props) {
   const id = parseInt((await params).id);
-
   const problem = await getProblemById(id);
   if (!problem) return notFound();
 
   return (
-    <main className="p-4 font-sans">
+    <main className="h-screen w-full">
       <ResizablePanelGroup
         direction="horizontal"
-        className="min-h-screen rounded-lg border"
+        className="h-full rounded-lg border"
       >
-        {/* LEFT SECTION: DETAILS */}
-        <ResizablePanel defaultSize={30}>
-          <section className="p-4 space-y-4">
+        {/* LEFT SECTION: PROBLEM DETAILS */}
+        <ResizablePanel defaultSize={40} minSize={25}>
+          <div className="h-full overflow-y-auto p-6 space-y-6 bg-background">
+            {/* Title & Difficulty */}
             <div className="flex items-center justify-between">
-              <Heading1>{problem.title}</Heading1>
+              <Heading1 >{problem.title}</Heading1>
               <Badge
                 variant="outline"
-                className={cn("w-20", difficultyStyles[problem.difficulty])}
+                className={cn(
+                  "capitalize border font-semibold",
+                  difficultyStyles[problem.difficulty]
+                )}
               >
                 {problem.difficulty}
               </Badge>
             </div>
-            <Paragraph>{problem.description}</Paragraph>
-            <Heading3>Examples:</Heading3>
-            {problem.examples &&
-              problem.examples.map((example, index) => (
-                <Examples key={index} {...example} />
-              ))}
-            <Heading3>Constrainsts:</Heading3>
-            {problem.constraints.map((constraint, index) => (
-              <Paragraph className="rounded-md bg-accent p-2" key={index}>
-                {constraint}
-              </Paragraph>
-            ))}
-          </section>
+
+            {/* Description */}
+            <Paragraph className="text-muted-foreground">
+              {problem.description}
+            </Paragraph>
+
+            {/* Examples */}
+            <div>
+              <Heading3 >Examples</Heading3>
+              <div className="space-y-3">
+                {problem.examples?.map((example, index) => (
+                  <Examples key={index} {...example} />
+                ))}
+              </div>
+            </div>
+
+            {/* Constraints */}
+            <div>
+              <Heading3 >Constraints</Heading3>
+              <div className="space-y-2">
+                {problem.constraints.map((constraint, index) => (
+                  <Paragraph
+                    className="rounded-md bg-accent p-3 text-sm"
+                    key={index}
+                  >
+                    {constraint}
+                  </Paragraph>
+                ))}
+              </div>
+            </div>
+          </div>
         </ResizablePanel>
         <ResizableHandle withHandle />
 
         {/* RIGHT SECTION: CODE EDITOR */}
-        <ResizablePanel defaultSize={70}>
-          <section className="p-4 space-y-4">
-            <Heading1>Code Editor</Heading1>
-            {/* TODO: Pass down problem.codeSnippets, based on selectedLanguage find the codeSnippet.code */}
-            <CodeEditor codeSnippets={problem.codeSnippets} />
-            <div className="flex justify-center items-center border rounded-2xl bg-accent">
-              <Paragraph>OUTPUT TERMINAL</Paragraph>
+        <ResizablePanel defaultSize={60} minSize={40}>
+          <div className="h-full overflow-y-auto p-6 space-y-4 bg-muted/50">
+            <div className="flex items-center justify-between">
+              <Heading1>Code Editor</Heading1>
+              {/* Optional: Add a Save / Reset button here */}
             </div>
-          </section>
+
+            <div className="rounded-lg border shadow-sm bg-background">
+              <CodeEditor codeSnippets={problem.codeSnippets} />
+            </div>
+          </div>
         </ResizablePanel>
       </ResizablePanelGroup>
     </main>

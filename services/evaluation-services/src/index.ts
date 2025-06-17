@@ -49,14 +49,15 @@ app.use(morgan("dev"));
 // Routes
 app.use("/api", routes);
 
-app.post("code-result", (req, res) => {
+app.post("/code-result", (req, res) => {
   const { jobId, output } = req.body;
   const socket = client.get(jobId);
-
+  console.log("going to emit code code");
   if (socket) {
+    console.log("emiiting code");
     socket.emit("code-result", { jobId, output });
   }
-  res.send(200)
+  res.send(200);
 });
 
 //TODO: Fix types for Error handling
