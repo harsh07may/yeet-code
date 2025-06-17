@@ -9,12 +9,9 @@ import tmp from "tmp";
  * @param {string} language - The programming language of the source code
  * @returns {Promise<string>} - A promise that resolves with the execution output as a string
  *
- * @remarks
- * Currently only supports Python code execution using Python 3.10 Docker image.
- * The code is executed in an isolated container with a 5 second timeout limit.
+ * @description The code is executed in an isolated container with a 5 second timeout limit.
  * Temporary files are automatically cleaned up after execution.
  */
-
 export const runIsolateCodeV2 = async (
   code: string,
   language: "python" | "javascript" | "java"
@@ -39,7 +36,6 @@ export const runIsolateCodeV2 = async (
       filename = "code";
       containerFilePath = "/code.js";
       runCommand = `node ${containerFilePath}`;
-      break;
       break;
     case "python":
       fileExtension = ".py";
