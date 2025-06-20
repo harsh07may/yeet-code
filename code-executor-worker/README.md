@@ -41,3 +41,9 @@ Worker saves results to PostgreSQL
 1. Install Docker on your machine.
 2. Build your container: `docker build -t yeetcode-worker .`.
 3. Run your container: `docker run -p 3000:3000 yeetcode-worker`.
+
+```md
+// .env
+REDIS_HOST = ""
+REDIS_PASSWORD = ""
+```
