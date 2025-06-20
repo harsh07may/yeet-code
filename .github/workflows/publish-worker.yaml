@@ -34,12 +34,12 @@ jobs:
             ./code-executor-worker/ \
             ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:~/code-executor-worker
 
-      # - name: Build and start worker
-      #   run: |
-      #     ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
-      #       cd ~/Yeetcode/code-executor-worker
-      #       pnpm install --frozen-lockfile;
-      #       pnpm build
-      #       pm2 stop worker || true
-      #       pm2 start dist/worker.js --name worker
-      #     EOF
+      - name: Build and start worker
+        run: |
+          ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+            cd ~/code-executor-worker
+            pnpm install --frozen-lockfile
+            pnpm build
+            pm2 stop worker || true
+            pm2 start dist/worker.js --name worker
+          EOF
