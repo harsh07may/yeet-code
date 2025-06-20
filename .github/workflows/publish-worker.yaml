@@ -1,0 +1,50 @@
+name: Deploy Worker to EC2
+
+# TODO: Configure to run on push.
+# on:
+#   push:
+#     branches:
+#       - main
+#     paths:
+#       - "code-executor-worker/**"
+
+# Configures this workflow to run manually.
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+
+      - name: TEST SSH
+        run: |
+          ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+            echo "Hello world"
+          EOF
+
+      # - name: Deploy worker code to EC2
+      #   run: |
+      #     rsync -avz -e "ssh -o StrictHostKeyChecking=no" \
+      #       ./code-executor-worker/ \
+      #       ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:~/yeet-code/code-executor-worker
+
+      # - name: Build and start worker
+      #   run: |
+      #     ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+      #       cd ~/Yeetcode/code-executor-worker
+      #       pnpm install --frozen-lockfile;
+      #       pnpm build
+      #       pm2 stop worker || true
+      #       pm2 start dist/worker.js --name worker
+      #     EOF
