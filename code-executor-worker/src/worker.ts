@@ -1,7 +1,7 @@
-import dotenv from "dotenv";
 import axios from "axios";
-import Redis from "ioredis";
 import { Job, QueueEvents, Worker } from "bullmq";
+import dotenv from "dotenv";
+import Redis from "ioredis";
 import { runIsolateCodeV2 } from "./runner";
 
 dotenv.config();
@@ -11,7 +11,7 @@ const connection = {
   host: process.env.REDIS_HOST!,
   port: 6379,
   password: process.env.REDIS_PASSWORD!,
-  tls: {}, //  Required for Upstash Redis (TLS-only), comment if local redis
+  // tls: {}, //  Required for Upstash Redis (TLS-only), comment if local redis
 };
 
 // Single connection to log Redis connection status
@@ -19,7 +19,7 @@ const diagnosticRedis = new Redis({
   host: connection.host,
   port: connection.port,
   password: connection.password,
-  tls: connection.tls, // Comment if local redis
+  // tls: connection.tls, // Comment if local redis
 });
 
 diagnosticRedis.on("connect", () => {
