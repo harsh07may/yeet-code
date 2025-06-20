@@ -1,16 +1,14 @@
 name: Deploy worker
 
 # TODO: Configure to run on push.
-# on:
-#   push:
-#     branches:
-#       - main
-#     paths:
-#       - "code-executor-worker/**"
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "code-executor-worker/**"
 
 # Configures this workflow to run manually.
-on:
-  workflow_dispatch:
 
 jobs:
   deploy:
