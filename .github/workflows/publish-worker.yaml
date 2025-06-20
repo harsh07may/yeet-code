@@ -1,4 +1,4 @@
-name: Deploy Worker to EC2
+name: Deploy worker
 
 # TODO: Configure to run on push.
 # on:
@@ -28,17 +28,11 @@ jobs:
           cat ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
 
-      - name: TEST SSH
+      - name: Deploy worker code to EC2
         run: |
-          ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
-            echo "Hello world"
-          EOF
-
-      # - name: Deploy worker code to EC2
-      #   run: |
-      #     rsync -avz -e "ssh -o StrictHostKeyChecking=no" \
-      #       ./code-executor-worker/ \
-      #       ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:~/yeet-code/code-executor-worker
+          rsync -avz -e "ssh -o StrictHostKeyChecking=no" \
+            ./code-executor-worker/ \
+            ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:~/code-executor-worker
 
       # - name: Build and start worker
       #   run: |
