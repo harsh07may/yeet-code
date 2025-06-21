@@ -1,4 +1,4 @@
-name: Publish to GH Packages
+name: Deploy client to GCP CloudRun
 
 # Configures this workflow to run manually.
 on:
