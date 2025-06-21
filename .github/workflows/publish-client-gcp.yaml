@@ -1,0 +1,57 @@
+name: Publish to GH Packages
+
+# Configures this workflow to run manually.
+on:
+  workflow_dispatch:
+
+env:
+  REGION: ${{ secrets.REGION }}
+  REGISTRY: ${{ secrets.REGION }}-docker.pkg.dev
+  PROJECT_ID: ${{ secrets.PROJECT_ID }}
+  IMAGE_NAME: ${{ github.repository }}
+  SERVICE_ACCOUNT_EMAIL: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
+
+jobs:
+  build-and-deploy:
+    name: Setup, Build, and Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Authenticate with Google Cloud
+        id: "auth"
+        uses: google-github-actions/auth@v1.1.1
+        with:
+          credentials_json: "${{ secrets.GCP_SA_KEY }}"
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+
+      - name: Log in to the Container registry
+        id: docker-auth
+        uses: docker/login-action@v2
+        with:
+          username: "oauth2accesstoken"
+          password: "${{ steps.auth.outputs.access_token }}"
+          registry: "${{ env.REGISTRY }}"
+
+      - name: Build and push Docker image
+        id: push
+        uses: docker/build-push-action@v4
+        with:
+          context: ./client
+          push: true
+          tags: |
+            ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{github.SHA}}
+
+      - name: Deploy to Cloud Run
+        id: Deploy
+        uses: google-github-actions/deploy-cloudrun@v2
+        with:
+          service: "${{ env.IMAGE_NAME }}-client"
+          image: ${{ env.IMAGE_NAME }}
+          region: ${{ env.REGION }}
+
+      - name: "Use output"
+        run: 'curl "${{ steps.deploy.outputs.url }}"'
